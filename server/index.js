@@ -4,17 +4,19 @@ const cors = require('cors');
 const http = require('http');
 const { getUser, removeUser, getUsersInRoom, addUser } = require("./users");
 
-const index = require('./router');
-
 const PORT = process.env.PORT || 5000;
 
 const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
 
-
 app.use(cors());
-app.use("/", index);
+
+app.get("/users/socialmedia",(req, res) => {
+	console.log(req.)
+	res.send("work it");
+});
+
 
 io.on("connect", socket => {
   console.log("we have a new Connection!!!");

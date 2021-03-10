@@ -15,7 +15,10 @@ let connectionOptions = {
   "force new connection": true,
   "reconnectionAttempts": "Infinity",
   "timeout": 10000,
-  "transports": ["websocket"]
+  "transports": ["websocket"],
+  auth: {
+    userId: 2
+  }
 }
 
 const Chat = () => {
@@ -34,15 +37,14 @@ const Chat = () => {
     setName(name);
     setRoom(room);
 
-    socket.emit("join", { name, room }, err => console.log(err));
+    socket.emit("join", {  room, joingTo: 3 }, err => console.log(err));
     console.log(socket);
 
     return () => {
-      socket.emit('disconnected');
-      socket.off();
+      socket.disconnect();
       console.log('left')
     }
-  }, [ENDPOINT, window.location.search]);
+  }, []);
 
   useEffect(() => {
     socket.on('message', msg => {
@@ -52,7 +54,7 @@ const Chat = () => {
     socket.on("roomData", ({ users }) => {
       setUsers(users);
     });
-  }, [messages]);
+  }, []);
 
   console.log(message, messages);
 
